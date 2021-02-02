@@ -1,0 +1,3 @@
+# WebShot
+
+Automated screenshot generator
