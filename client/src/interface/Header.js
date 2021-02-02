@@ -8,9 +8,7 @@ const Header = () => {
 
 
     return (
-        <div className="header-content">
-
-        </div>
+        <p>WebShot</p>
     );
 }
 export default Header;

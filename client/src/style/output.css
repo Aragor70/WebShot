@@ -1,0 +1,21 @@
+
+.output
+{
+    width: 100%;
+    height: 88vh;
+    margin-top: 12vh;
+
+
+    overflow: hidden;
+    overflow-y: auto;
+
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.section-content
+{
+    width: 100%;
+    height: 100%;
+    
+}
