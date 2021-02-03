@@ -6,7 +6,7 @@ const { google } = require('googleapis');
 
 // If modifying these scopes, delete token.json.
 
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'];
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
@@ -22,6 +22,8 @@ fs.readFile('credentials.json', (err, content) => {
 
   // Authorize a client with credentials, then call the Google Drive API.
   authorize(JSON.parse(content), listFiles);
+  //authorize(JSON.parse(content), getFile);
+  authorize(JSON.parse(content), uploadFile);
 
 });
 
@@ -89,7 +91,9 @@ const getAccessToken = (oAuth2Client, callback) => {
       // Store the token to disk for later program executions
 
       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+
         if (err) return console.error(err);
+
         console.log('Token stored to', TOKEN_PATH);
       });
 
@@ -109,28 +113,75 @@ const getAccessToken = (oAuth2Client, callback) => {
 
 
 const listFiles = (auth) => {
+  const drive = google.drive({ version: 'v3', auth });
+  getList(drive, '');
+}
 
-  const drive = google.drive({version: 'v3', auth});
-
+const getList = (drive, pageToken) => {
   drive.files.list({
-    pageSize: 10,
-    fields: 'nextPageToken, files(id, name)',
+      corpora: 'user',
+      pageSize: 10,
+      //q: "name='elvis233424234'",
+      pageToken: pageToken ? pageToken : '',
+      fields: 'nextPageToken, files(*)',
   }, (err, res) => {
-    
-    if (err) return console.log('The API returned an error: ' + err);
+      if (err) return console.log('The API returned an error: ' + err);
+      const files = res.data.files;
+      if (files.length) {
+          console.log('Files:');
+          processList(files);
+          if (res.data.nextPageToken) {
+              getList(drive, res.data.nextPageToken);
+          }
 
-    const files = res.data.files;
+          // files.map((file) => {
+          //     console.log(`${file.name} (${file.id})`);
+          // });
+      } else {
+          console.log('No files found.');
+      }
+  });
+}
 
-    if (files.length) {
 
-      console.log('Files:');
 
-      files.map((file) => console.log(`${file.name} (${file.id})`));
+const processList = (files) => {
+  console.log('Processing....');
+  files.forEach(file => {
+      // console.log(file.name + '|' + file.size + '|' + file.createdTime + '|' + file.modifiedTime);
+      console.log(file);
+  });
+}
 
-    } else {
 
-      console.log('No files found.');
-    }
+const uploadFile = (auth) => {
+  const drive = google.drive({ version: 'v3', auth });
+  var fileMetadata = {
+      'name': 'output.jpg'
+  };
+  var media = {
+      mimeType: 'image/jpeg',
+      body: fs.createReadStream('output.jpg')
+  };
+  drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      fields: 'id'
+  }, function (err, res) {
+      if (err) {
+          // Handle error
+          console.log(err);
+      } else {
+          console.log('File Id: ', res.data.id);
+      }
+  });
+}
 
+
+const getFile = (auth, fileId) => {
+  const drive = google.drive({ version: 'v3', auth });
+  drive.files.get({ fileId: fileId, fields: '*' }, (err, res) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      console.log(res.data); c
   });
 }
