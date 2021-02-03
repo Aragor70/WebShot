@@ -1,7 +1,4 @@
 import axios from 'axios';
-import config from './config.json';
-import fs from 'fs'
-import screenshotmachine from 'screenshotmachine';
 
 
 export const save = async(formData) => {
@@ -13,6 +10,22 @@ export const save = async(formData) => {
    try {
 
         const res = await axios.post('/api/urls', formData, config)
+        return res.data
+
+    } catch (err) {
+        console.log(err.message, 'error')
+    }
+}
+
+export const drive = async(access) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+   try {
+
+        const res = await axios.post('/api/urls/confirm', access, config)
         return res.data
 
     } catch (err) {

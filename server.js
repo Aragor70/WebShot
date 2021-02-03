@@ -2,6 +2,7 @@ require('dotenv').config({ path: './config/config.env' })
 const express = require('express');
 const app = express()
 const path = require('path');
+const colors = require('colors');
 
 
 app.use(express.json());

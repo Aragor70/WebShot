@@ -3,6 +3,10 @@ const router = express.Router();
 const fs = require('fs');
 const asyncHandler = require('../../middlewares/async');
 const screenshotmachine = require('screenshotmachine');
+const { google } = require('googleapis');
+const saveFile = require('../../google');
+
+const credentials = require('../../credentials.json');
 
 //route POST   api/abouts
 //description  generate the image
@@ -26,15 +30,56 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
     const apiUrl = await screenshotmachine.generateScreenshotApiUrl(customerKey, secretPhrase, options);
 
-    const output = 'output.png';
+    const domain = (new URL(url)).hostname.replace('www.','').split('.')[0]
+
+    const output = domain + '.jpg'
     
-    const file = screenshotmachine.readScreenshot(apiUrl).pipe(fs.createWriteStream(output).on('close', function() {
+    
+    await screenshotmachine.readScreenshot(apiUrl).pipe(fs.createWriteStream(output).on('close', function() {
     console.log('Screenshot saved as ' + output);
 
-    res.json(file)
+    
+    setTimeout(() => {
+
+    
+    const {client_secret, client_id, redirect_uris} = credentials.installed;
+  
+    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+  
+    
+    // get inputs
+
+    const SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'];
+
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: 'online',
+      scope: SCOPES
+    });
+    
+    return res.json({ url: authUrl, view: apiUrl, name: output}) // google drive access
+
+    }, 3000)
 
 }));
 
 }));
+
+
+//route POST   api/abouts
+//description  get the access to save the file
+//access       public
+router.post('/confirm', asyncHandler( async(req, res, next) => {
+
+    const { key, fileName } = req.body;
+
+    
+    saveFile(key, fileName)
+
+
+    res.json({ success: true, message: 'File has been saved.' })
+
+}));
+
+
 
 module.exports = router;
