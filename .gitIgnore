@@ -5,4 +5,4 @@ token.json
 config/config.env
 credentials.json
 
-**/*.jpg
+*.jpg

@@ -12,7 +12,7 @@ The website allows users to generate screenshots of any website and save them in
 
 - Given URL address needs to be valid;
 - A user can access google drive within the secret key;
-
+- Use screenshot width: 1920 pixels and height of 1080 pixels, Image format JPG. Use the following structure of creating the name of the screenshot file “ID_name.jpg. 
 
 ## Technical Specification
 
