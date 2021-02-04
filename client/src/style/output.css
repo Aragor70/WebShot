@@ -54,4 +54,22 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    position: relative;
+    margin-bottom: 15px;
+}
+.options > span
+{
+    min-height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 7.5px;
+    text-align: justify;
+    position: absolute;
+    left: 0;
+}
+
+.half-size
+{
+    width: 50%!important;
 }

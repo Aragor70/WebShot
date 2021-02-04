@@ -59,7 +59,8 @@ const Index = () => {
             fileName: ''
         })
         setFormData({
-            url: ''
+            url: '',
+            customName: ''
         })
         setProgress(false)
         
@@ -70,17 +71,26 @@ const Index = () => {
         <div className="section-content">
             
             <form className="input-form" onSubmit={e=> handleSubmit(e)}>
-            <p>Take a website screenshot with WebShot.</p>
-            <input type="text" name="url" value={formData.url || ''} onChange={e=> handleChange(e)} required />
-            <input type="text" name="customName" value={formData.customName || ''} placeholder=" .optional" onChange={e=> handleChange(e)} required />
-            <div className="options">
+                <p>Take a website screenshot with WebShot.</p>
+                <input type="text" name="url" value={formData.url || ''} onChange={e=> handleChange(e)} required />
+                {
+                    formData.url && <Fragment>
+                        <p>Customize file name <b>{"<file_name>"}</b>.jpg</p>
+                        <input type="text" className="half-size" name="customName" value={formData.customName || ''} placeholder=" .optional" onChange={e=> handleChange(e)} />
+                    </Fragment>
+                }
+                
+                <div className="options">
+                    {
+                        access.fileName && <span className="half-size">{access.fileName}</span>
+                    }
                 <button type="submit">Continue</button>
             </div>
-            </form>
-
-
 
             
+            </form>
+            <hr />
+
             {
                 access.url && <Fragment>
                     <form onSubmit={e => handleAccessSubmit(e)}>
