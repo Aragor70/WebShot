@@ -22,6 +22,13 @@ The website allows users to generate screenshots of any website and save them in
 - A git repository with clean commit history.
 - Good REST practices.
 
+## Usage
+Rename "config/config.env.env" to "config/config.env" and update environment settings to your own.
+
+Create your account at <i>https://www.screenshotmachine.com/</i>
+
+Get the customerKey and insert into "config/config.env".
+Be aware the free account has limited service.
 
 ## Install dependencies
 

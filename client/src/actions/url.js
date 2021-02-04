@@ -10,6 +10,8 @@ export const save = async(formData) => {
    try {
 
         const res = await axios.post('/api/urls', formData, config)
+
+        console.log('success')
         return res.data
 
     } catch (err) {

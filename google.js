@@ -67,9 +67,6 @@ const getList = (drive, pageToken) => {
               getList(drive, res.data.nextPageToken);
           }
 
-          // files.map((file) => {
-          //     console.log(`${file.name} (${file.id})`);
-          // });
       } else {
           console.log('No files found.');
       }

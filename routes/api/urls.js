@@ -5,15 +5,24 @@ const asyncHandler = require('../../middlewares/async');
 const screenshotmachine = require('screenshotmachine');
 const { google } = require('googleapis');
 const saveFile = require('../../google');
+const ErrorResponse = require('../../tools/ErrorResponse');
+var validUrl = require('valid-url');
 
 const credentials = require('../../credentials.json');
 
-//route POST   api/abouts
+//route POST   api/urls
 //description  generate the image
 //access       public
 router.post('/', asyncHandler( async(req, res, next) => {
 
-    const { url } = req.body;
+    const { url, customName } = req.body;
+
+    if (!url) {
+        return next(new ErrorResponse('Address not found', 404))
+    }
+    if (!validUrl.isUri(url)){
+        return next(new ErrorResponse('Please enter valid Address', 404))
+    }
 
     customerKey = process.env.customerKey;
     secretPhrase = process.env.secretPhrase;
@@ -30,9 +39,16 @@ router.post('/', asyncHandler( async(req, res, next) => {
 
     const apiUrl = await screenshotmachine.generateScreenshotApiUrl(customerKey, secretPhrase, options);
 
-    const domain = (new URL(url)).hostname.replace('www.','').split('.')[0]
+    let output;
 
-    const output = domain + '.jpg'
+    if (customName) {
+        output = customName + '.jpg'
+    } else {
+        const domain = (new URL(url)).hostname.replace('www.','').split('.')[0]
+
+        output = domain + '.jpg'
+    }
+    
     
     
     await screenshotmachine.readScreenshot(apiUrl).pipe(fs.createWriteStream(output).on('close', function() {
@@ -65,15 +81,21 @@ router.post('/', asyncHandler( async(req, res, next) => {
 }));
 
 
-//route POST   api/abouts
+//route POST   api/urls/confirm
 //description  get the access to save the file
 //access       public
 router.post('/confirm', asyncHandler( async(req, res, next) => {
 
     const { key, fileName } = req.body;
 
+    if (!fileName) {
+        return next(new ErrorResponse('File not found', 404))
+    }
+    if (!key) {
+        return next(new ErrorResponse('File not found', 404))
+    }
     
-    saveFile(key, fileName)
+    await saveFile(key, fileName)
 
 
     res.json({ success: true, message: 'File has been saved.' })
