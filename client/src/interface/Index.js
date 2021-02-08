@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from 'react';
+import { setMessage } from '../actions/alert';
 import { save, drive } from '../actions/url';
 
 
 
 
-const Index = () => {
+const Index = ({ setAlert }) => {
 
 
     const [progress, setProgress] = useState(false)
@@ -42,8 +43,8 @@ const Index = () => {
             setAccess({ url: res.url, fileName: res.name})
         
         } catch (err) {
-            console.log(err.message)
-            
+
+            setMessage('Please enter valid URL', 'danger', setAlert)
         }
         setProgress(false)
 
@@ -67,8 +68,11 @@ const Index = () => {
             url: '',
             customName: ''
         })
+        setMessage('Image has been saved', 'success', setAlert)
+
         } catch (err) {
-            console.log(err.message)
+            setMessage('Please enter valid key', 'danger', setAlert)
+
             setAccess({
                 url: '',
                 key: '',

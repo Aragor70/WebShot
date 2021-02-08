@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './interface/Header';
 import Index from './interface/Index';
@@ -6,13 +6,16 @@ import NoMatch from './interface/NoMatch';
 
 const App = () => {
 
- 
+  const [alert, setAlert] = useState({
+    message: '',
+    alertType: ''
+  })
 
   return (
     <Fragment>
       
       <header className="header">
-        <Header />
+        <Header alert={alert} />
       </header>
       
       <main className="output">
@@ -20,7 +23,7 @@ const App = () => {
 
         <Switch>
           <Route exact path="/">
-            <Index />
+            <Index setAlert={setAlert} />
           </Route>
           
           <Route>
