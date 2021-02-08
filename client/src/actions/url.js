@@ -19,7 +19,7 @@ export const save = async(formData) => {
     }
 }
 
-export const drive = async(access) => {
+export const drive = async(accessData) => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -27,7 +27,9 @@ export const drive = async(access) => {
     }
    try {
 
-        const res = await axios.post('/api/urls/confirm', access, config)
+        const res = await axios.post('/api/urls/confirm', accessData, config)
+
+        console.log(res.data)
         return res.data
 
     } catch (err) {

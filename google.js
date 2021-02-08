@@ -1,7 +1,8 @@
 const fs = require('fs');
 const { google } = require('googleapis');
+const ErrorResponse = require('./tools/ErrorResponse');
 
-module.exports = (accessToken, fileName) => {
+module.exports = (accessToken, fileName, next) => {
 
 
 
@@ -9,7 +10,9 @@ module.exports = (accessToken, fileName) => {
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
 
-  if (err) return console.log('Error loading client secret file:', err);
+  if (err) {
+    return next(new ErrorResponse('Server not found.', 404))
+  }
 
   // Authorize a client with credentials, then call the Google Drive API.
   authorize(JSON.parse(content), listFiles);
@@ -35,7 +38,9 @@ const getAccessToken = (oAuth2Client, callback) => {
 
     oAuth2Client.getToken(code, (err, token) => {
 
-      if (err) return console.error('Error retrieving access token', err);
+      if (err) {
+        return next(new ErrorResponse('User not authorised.', 401))
+      }
 
       oAuth2Client.setCredentials(token);
       
@@ -101,7 +106,7 @@ const uploadFile = (auth) => {
   }, function (err, res) {
       if (err) {
           // Handle error
-          console.log(err);
+          return next(new ErrorResponse('The file is not valid.', 422))
       } else {
         
           console.log('File Id: ', res.data.id);
@@ -109,13 +114,5 @@ const uploadFile = (auth) => {
   });
 }
 
-
-const getFile = (auth, fileId) => {
-  const drive = google.drive({ version: 'v3', auth });
-  drive.files.get({ fileId: fileId, fields: '*' }, (err, res) => {
-      if (err) return console.log('The API returned an error: ' + err);
-      console.log(res.data); c
-  });
-}
 
 }

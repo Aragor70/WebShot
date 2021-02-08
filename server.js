@@ -3,6 +3,7 @@ const express = require('express');
 const app = express()
 const path = require('path');
 const colors = require('colors');
+const errorHandler = require('./middlewares/error');
 
 
 app.use(express.json());
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use('/api/urls', require('./routes/api/urls'));
 
+app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 5000;

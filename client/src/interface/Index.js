@@ -34,13 +34,17 @@ const Index = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        
         setProgress(true)
-
-        const res = await save(formData)
+        try {
+            const res = await save(formData, setOutput, setAccess)
         
-        setOutput(res.view)
-        setAccess({ url: res.url, fileName: res.name})
+            setOutput(res.view)
+            setAccess({ url: res.url, fileName: res.name})
+        
+        } catch (err) {
+            console.log(err.message)
+            
+        }
         setProgress(false)
 
     }
@@ -51,7 +55,8 @@ const Index = () => {
         
         setProgress(true)
 
-        await drive(access)
+        try {
+            await drive(access)
 
         setAccess({
             url: '',
@@ -62,6 +67,19 @@ const Index = () => {
             url: '',
             customName: ''
         })
+        } catch (err) {
+            console.log(err.message)
+            setAccess({
+                url: '',
+                key: '',
+                fileName: ''
+            })
+            setFormData({
+                url: '',
+                customName: ''
+            })
+        }
+        
         setProgress(false)
         
     }

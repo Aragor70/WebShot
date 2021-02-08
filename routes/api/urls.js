@@ -54,8 +54,6 @@ router.post('/', asyncHandler( async(req, res, next) => {
     await screenshotmachine.readScreenshot(apiUrl).pipe(fs.createWriteStream(output).on('close', function() {
     console.log('Screenshot saved as ' + output);
 
-    
-    setTimeout(() => {
 
     
     const {client_secret, client_id, redirect_uris} = credentials.installed;
@@ -74,7 +72,6 @@ router.post('/', asyncHandler( async(req, res, next) => {
     
     return res.json({ url: authUrl, view: apiUrl, name: output}) // google drive access
 
-    }, 3000)
 
 }));
 
@@ -95,10 +92,10 @@ router.post('/confirm', asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('File not found', 404))
     }
     
-    await saveFile(key, fileName)
+    await saveFile(key, fileName, next)
 
 
-    res.json({ success: true, message: 'File has been saved.' })
+    res.json({ success: true, message: 'Request sent' })
 
 }));
 
