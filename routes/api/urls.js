@@ -92,10 +92,11 @@ router.post('/confirm', asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('File not found', 404))
     }
     
-    await saveFile(key, fileName, next)
+    
+    await saveFile(key, fileName, res, next)
 
 
-    res.json({ success: true, message: 'Request sent' })
+    
 
 }));
 
