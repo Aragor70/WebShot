@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Footer from './interface/Footer';
 import Header from './interface/Header';
 import Index from './interface/Index';
 import NoMatch from './interface/NoMatch';
@@ -33,6 +34,9 @@ const App = () => {
         
 
       </main>
+      <footer className="footer">
+        <Footer />
+      </footer>
     </Fragment>
   );
 }

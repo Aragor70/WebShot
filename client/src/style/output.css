@@ -5,12 +5,12 @@
 .output
 {
     width: 100%;
-    height: 88vh;
+    min-height: 88vh;
     margin-top: 12vh;
 
 
     overflow: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
 
     padding-left: 15px;
     padding-right: 15px;
@@ -46,6 +46,112 @@
 .input-form button
 {
     min-height: 35px;
+    padding: 7.5px;
+}
+
+.options
+{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin-bottom: 15px;
+}
+.options > span
+{
+    min-height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 7.5px;
+    text-align: justify;
+    position: absolute;
+    left: 0;
+}
+
+.half-size
+{
+    width: 50%!important;
+}
+
+.access-form
+{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: justify;
+    flex-direction: column;
+
+}
+
+.access-form input
+{
+    width: 100%;
+    height: 35px;
+    padding: 7.5px;
+    margin-bottom: 15px;
+}
+
+.access-form button
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7.5px;
+    
+}
+
+@media (min-width: 1023px) {
+
+
+.output
+{
+    width: 100%;
+    min-height: 88vh;
+    margin-top: 12vh;
+
+
+    overflow: hidden;
+    overflow-y: hidden;
+
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.section-content
+{
+    width: 100%;
+    height: 100%;
+    
+}
+
+.input-form
+{
+    width: 50%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 30px;
+
+}
+
+.input-form input
+{
+    width: 100%;
+    height: 35px;
+    padding: 7.5px;
+    margin-bottom: 30px;
+}
+
+.input-form button
+{
+    min-height: 35px;
     padding: 7.5px
 }
 
@@ -72,4 +178,38 @@
 .half-size
 {
     width: 50%!important;
+}
+
+.access-form
+{
+    width: 50%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: justify;
+    flex-direction: column;
+    font-size: 24px;
+    padding: 30px;
+
+}
+
+.access-form input
+{
+    width: 100%;
+    height: 35px;
+    padding: 7.5px;
+    margin-bottom: 15px;
+}
+
+.access-form button
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7.5px;
+}
+
+
+
 }

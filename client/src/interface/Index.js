@@ -9,7 +9,7 @@ const Index = ({ setAlert }) => {
 
 
     const [progress, setProgress] = useState(false)
-
+    const [inputKey, setInputKey] = useState(false)
     const [formData, setFormData] = useState({
         url: '',
         customName: ''
@@ -88,6 +88,11 @@ const Index = ({ setAlert }) => {
         
     }
 
+    const getAccess = () => {
+        setInputKey(true)
+        return window.open(access.url, "_blank")
+    }
+
 
     return (
         <div className="section-content">
@@ -107,7 +112,7 @@ const Index = ({ setAlert }) => {
                         access.fileName && <span className="half-size">{access.fileName}</span>
                     }
                 <button type="submit">Continue</button>
-            </div>
+                </div>
 
             
             </form>
@@ -115,13 +120,23 @@ const Index = ({ setAlert }) => {
 
             {
                 access.url && <Fragment>
-                    <form onSubmit={e => handleAccessSubmit(e)}>
+                    <form onSubmit={e => handleAccessSubmit(e)} className="access-form">
                         
-                        <button type="button" onClick={e => window.open(access.url, "_blank")} style={{ color: 'blue' }}>Sign in to Google Drive</button>
+                        <button type="button" onClick={e => getAccess(e)} style={{ color: 'blue' }}><i class="fab fa-google-drive fa-2x"></i> Google Drive</button>
+                        <span>* Upload the image to your google drive storage.</span>
+
+
+                        {
+                            inputKey && <Fragment>
+                                <p>Please enter your access key</p>
+                                <input type="text" name="key" onChange={e=> handleAccessChange(e)} value={access.key || ''} placeholder=" .google secret key" required />
+                                
+                                <div className="options">
+                                    <button type="submit">save</button>
+                                </div>
+                            </Fragment>
+                        }
                         
-                        <p>Please enter your secret key</p>
-                        <input type="text" name="key" onChange={e=> handleAccessChange(e)} value={access.key || ''} placeholder=" .google secret key" required />
-                        <button type="submit">save</button>
                     </form>
                 </Fragment>
                     

@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+.footer
+{
+    width: 100%;
+    height: auto;
+
+    padding: 15px;
+}
+
+.footer-content
+{
+    width: 100%;
+    height: 100%;
+
+    background-color: #fff;
+    color: #121212;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.footer-content > p
+{
+    cursor: pointer;
+    font-size: 18px;
+    position: relative;
+}

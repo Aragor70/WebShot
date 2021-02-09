@@ -15,7 +15,7 @@ export const save = async(formData) => {
         return res.data
 
     } catch (err) {
-        console.log(err.message, 'error')
+        throw new Error(err)
     }
 }
 
@@ -33,6 +33,7 @@ export const drive = async(accessData) => {
         return res.data
 
     } catch (err) {
-        console.log(err.message, 'error')
+        throw new Error(err)
+        
     }
 }

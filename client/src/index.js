@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './style/style.css'
 import './style/output.css'
 import './style/header.css'
+import './style/footer.css'
 
 ReactDOM.render(
   <React.StrictMode>
